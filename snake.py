@@ -1,22 +1,29 @@
 import turtle
 import random
 
-turtle.tracer (1, 0)
+#importing turtle and random (random fo the random food generating
 
-SIZE_X=800
+turtle.tracer (1, 0) 
+
+SIZE_X=650
 SIZE_Y=500
 turtle.setup(SIZE_X, SIZE_Y)
+#the size of the screen/boarder
 
 turtle.penup()
+#pen is automatically down
 
-SQUARE_SIZE = 25
-START_LENGTH = 1
+SQUARE_SIZE = 20
+START_LENGTH = 2 #the length of th snake at the beginning of the game
 
+
+#lists
 pos_list = []
 stamp_list = []
 food_pos = []
 food_stamps = []
 
+#making the snake
 snake = turtle.clone()
 snake.shape ("square")
 
@@ -46,20 +53,21 @@ RIGHT = 3
 
 direction = UP
 
-UP_EDGE = 200
-DOWN_EDGE = -200
+UP_EDGE = 250
+DOWN_EDGE = -250
 RIGHT_EDGE = 400
-LEFT_EDGE = -400
+LEFT_EDGE = -250
 
-###
+
+
 hi = turtle.clone()
 hi.hideturtle()
-hi.goto(-400, -200)
+hi.goto(-250, -250)
 hi.pendown ()
-hi.goto(-400 + 800,-200)
-hi.goto (400, -200 + 400)
-hi.goto (400-800, 200)
-hi.goto (-400, 200-400)
+hi.goto(-250 + 650,-250)
+hi.goto (400, -250 + 500)
+hi.goto (400-650, 250)
+hi.goto (-250, 250-500)
 hi.penup ()
 def up() :
     global direction
@@ -89,17 +97,20 @@ turtle.listen ()
 
 
 def make_food():
-    min_x= -int(SIZE_X/2/SQUARE_SIZE)+1
-    max_x= int(SIZE_X/2/SQUARE_SIZE)-1
-    min_y= -int(SIZE_Y/2/SQUARE_SIZE)-1
-    max_y= int(SIZE_Y/2/SQUARE_SIZE)+1
+    min_x= int((LEFT_EDGE+SQUARE_SIZE/2)/SQUARE_SIZE)
+    max_x= int((RIGHT_EDGE-SQUARE_SIZE/2)/SQUARE_SIZE)
+    min_y= int((DOWN_EDGE+SQUARE_SIZE/2)/SQUARE_SIZE)
+    max_y= int((UP_EDGE-SQUARE_SIZE/2)/SQUARE_SIZE)
     food_x= random.randint(min_x, max_x)*SQUARE_SIZE
     food_y= random.randint(min_y, max_y)*SQUARE_SIZE
+ #   if food_pos 
     food_posi=(food_x, food_y)
     food_pos.append (food_posi)
     food.goto(food_posi)
     food_id = food.stamp()
     food_stamps.append(food_id)
+   # else :
+   #     make_food()
 
 def move_snake() :
     my_pos = snake.pos()
@@ -159,8 +170,9 @@ def move_snake() :
         print ("You hit the upper edge! Game over!")
         quit ()
     elif pos_list[-1] in pos_list[:-1]:
-        print ('You have eaten yourself')
+        print ('You have eaten yourself! Game over!')
         quit()
+    
     turtle.ontimer(move_snake, TIME_STEP)
 
     
